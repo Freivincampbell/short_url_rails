@@ -10,9 +10,22 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
+    url = ShortUrl.new(params_url)
+
+    if url.save
+      render json: { status: 201, url: url }
+    else
+      render json: { status: 400, errors: url.errors }
+    end
   end
 
   def show
+  end
+
+  private
+
+  def params_url
+    params.require(:short_url).permit(:full_url)
   end
 
 end
