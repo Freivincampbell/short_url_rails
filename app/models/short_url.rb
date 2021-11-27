@@ -4,6 +4,7 @@ class ShortUrl < ApplicationRecord
 
   validate :validate_full_url
 
+  scope :top_short_url, ->(limit) { order(click_count: :desc).limit(limit).as_json(except: %i[created_at updated_at]) }
   def short_code
   end
 
