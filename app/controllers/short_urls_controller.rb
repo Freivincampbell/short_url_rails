@@ -20,6 +20,13 @@ class ShortUrlsController < ApplicationController
   end
 
   def show
+    if (url = ShortUrl.find_url(params[:id])) && url.increment_click_counts
+      return redirect_to url.full_url
+    end
+
+    render json: {
+      status: 404, errors: 'Not Found'
+    }, status: :not_found
   end
 
   private

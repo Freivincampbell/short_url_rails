@@ -10,17 +10,27 @@ class ShortUrl < ApplicationRecord
   scope :top_short_url, ->(limit) { order(click_count: :desc).limit(limit).as_json(except: %i[created_at updated_at]) }
 
   def short_code
-    self.shorted_code = ShortUrlsHelper.url_encode(next_id)
-  end
+    self.shorted_code = ShortUrlsHelper.url_encode(id.to_i)
 
-  def next_id
-    last_id = ShortUrl.last&.id
-    return 1 if last_id.nil?
+    return true if save
 
-    last_id + 1
+    false
   end
 
   def update_title!
+  end
+    return 1 if last_id.nil?
+
+  def increment_click_counts
+    self.click_count += 1
+    save
+  end
+
+  def self.find_url(shorted_code)
+    find(ShortUrlsHelper.url_decode(shorted_code))
+    find(id)
+  rescue ActiveRecord::RecordNotFound
+    false
   end
 
   private
