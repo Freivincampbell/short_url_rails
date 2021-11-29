@@ -10,12 +10,12 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
-    url = ShortUrl.new(params_url)
+    url = ShortUrl.create(params_url)
 
-    if url.save
+    if url.short_code
       render json: { status: 201, url: url }
     else
-      render json: { status: 400, errors: url.errors }
+      render json: { status: :unprocessable_entity, errors: url.errors }
     end
   end
 
