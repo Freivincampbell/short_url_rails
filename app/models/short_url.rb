@@ -5,8 +5,6 @@ class ShortUrl < ApplicationRecord
 
   validate :validate_full_url
 
-  before_create :short_code
-
   scope :top_short_url, ->(limit) { order(click_count: :desc).limit(limit).as_json(except: %i[created_at updated_at]) }
 
   def short_code
@@ -19,7 +17,6 @@ class ShortUrl < ApplicationRecord
 
   def update_title!
   end
-    return 1 if last_id.nil?
 
   def increment_click_counts
     self.click_count += 1
@@ -28,7 +25,6 @@ class ShortUrl < ApplicationRecord
 
   def self.find_url(shorted_code)
     find(ShortUrlsHelper.url_decode(shorted_code))
-    find(id)
   rescue ActiveRecord::RecordNotFound
     false
   end
@@ -36,9 +32,11 @@ class ShortUrl < ApplicationRecord
   private
 
   def validate_full_url
-    if (full_url =~ URI::DEFAULT_PARSER.make_regexp(%w[http https])).nil?
-      errors.add(:full_url, 'Full url is not a valid url')
-    end
+    return if full_url.nil?
+
+    is_valid_url = (full_url =~ URI::DEFAULT_PARSER.make_regexp(%w[http https]))
+
+    errors.add(:full_url, 'is not a valid url') if is_valid_url.nil?
   end
 
 end
