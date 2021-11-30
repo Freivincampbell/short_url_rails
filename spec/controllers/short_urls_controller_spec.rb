@@ -33,12 +33,12 @@ RSpec.describe ShortUrlsController, type: :controller do
   describe 'create' do
 
     it 'creates a short_url' do
-      post :create, params: { short_url: { full_url: 'https://www.test.rspec' } }, format: :json
+      post :create, params: { full_url: 'https://www.test.rspec' }, format: :json
       expect(parsed_response['url']['shorted_code']).to be_a(String)
     end
 
     it 'does not create a short_url' do
-      post :create, params: { short_url: { full_url: 'nope!' } }, format: :json
+      post :create, params: { full_url: 'nope!' }, format: :json
       expect(parsed_response['errors']['full_url']).to be_include('is not a valid url')
     end
 

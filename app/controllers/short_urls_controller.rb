@@ -13,7 +13,7 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
-    url = ShortUrl.new(params_url)
+    url = ShortUrl.create(params_url)
 
     if url.short_code
       render json: { status: 201, url: url }
@@ -35,7 +35,7 @@ class ShortUrlsController < ApplicationController
   private
 
   def params_url
-    params.require(:short_url).permit(:full_url)
+    params.permit(:full_url)
   end
 
 end
