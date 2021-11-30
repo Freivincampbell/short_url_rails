@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Short Urls Helper using https://gist.github.com/zumbojo/1073996#file-bijective-rb
 module ShortUrlsHelper
   CHARACTERS = [*'0'..'9', *'a'..'z', *'A'..'Z'].freeze
 

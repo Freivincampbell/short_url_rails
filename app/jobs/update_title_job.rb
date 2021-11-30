@@ -1,4 +1,4 @@
-# frozen_string_literal true
+# frozen_string_literal: true
 
 # Job to update the title of a resource
 class UpdateTitleJob < ApplicationJob
