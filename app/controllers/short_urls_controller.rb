@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Short URls Controller
 class ShortUrlsController < ApplicationController
 
   # Since we're working on an API, we don't have authenticity tokens
@@ -10,7 +13,7 @@ class ShortUrlsController < ApplicationController
   end
 
   def create
-    url = ShortUrl.create(params_url)
+    url = ShortUrl.new(params_url)
 
     if url.short_code
       render json: { status: 201, url: url }
@@ -20,7 +23,7 @@ class ShortUrlsController < ApplicationController
   end
 
   def show
-    if (url = ShortUrl.find_url(params[:id])) && url.increment_click_counts
+    if (url = ShortUrl.find_by(shorted_code: params[:id])) && url.increment_click_counts
       return redirect_to url.full_url
     end
 
