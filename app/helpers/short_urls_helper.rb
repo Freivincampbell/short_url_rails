@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 # Short Urls Helper using https://gist.github.com/zumbojo/1073996#file-bijective-rb
 module ShortUrlsHelper
